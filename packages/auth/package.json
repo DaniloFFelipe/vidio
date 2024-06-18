@@ -1,0 +1,22 @@
+{
+  "name": "@vidio/auth",
+  "version": "0.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "devDependencies": {
+    "@vidio/eslint": "workspace:*",
+    "@vidio/prettier": "workspace:*",
+    "@vidio/tsconfig": "workspace:*"
+  },
+  "eslintConfig": {
+    "extends": [
+      "@vidio/eslint/library.js"
+    ]
+  },
+  "prettier": "@vidio/prettier",
+  "dependencies": {
+    "@casl/ability": "^6.7.1",
+    "zod": "^3.22.4"
+  }
+}
