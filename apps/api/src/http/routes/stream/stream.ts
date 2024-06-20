@@ -22,7 +22,7 @@ export async function streamMedia(app: FastifyInstance) {
         },
       },
       async (request, reply) => {
-        await request.getCurrentUserId()
+        // await request.getCurrentUserId()
 
         const { id } = request.params
         const media = await prisma.file.findUnique({
@@ -40,7 +40,10 @@ export async function streamMedia(app: FastifyInstance) {
         }
 
         const fullUrl = getBaseUrlFromRequest(request)
-        const fileUrl = new URL(`/files/${media.location}`, fullUrl).toString()
+        const fileUrl = new URL(
+          `${media.location.replace('uploads', 'files')}`,
+          fullUrl,
+        ).toString()
         return reply.redirect(fileUrl)
       },
     )
