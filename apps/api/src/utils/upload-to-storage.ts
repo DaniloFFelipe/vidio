@@ -18,13 +18,13 @@ export async function uploadToStorage(
   const fileName = fileId.concat(extension)
 
   const writeStream = createWriteStream(
-    resolve(process.cwd(), 'uploads', 'raw', fileName),
+    resolve(process.cwd(), 'uploads', 'images', fileName),
   )
 
   await pump(file.file, writeStream)
 
   const fullUrl = request.protocol.concat('://').concat(request.hostname)
-  const fileUrl = new URL(`/uploads/${fileName}`, fullUrl).toString()
+  const fileUrl = new URL(`/uploads/images/${fileName}`, fullUrl).toString()
 
   return { fileUrl }
 }
