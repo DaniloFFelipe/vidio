@@ -46,7 +46,6 @@ enum AccountProvider {
 enum Role {
   ADMIN
   MEMBER
-  BILLING
 }
 
 model Invite {
@@ -93,10 +92,12 @@ model Organization {
   owner   User   @relation(fields: [ownerId], references: [id])
   ownerId String @map("owner_id")
 
-  invites Invite[]
-  members Member[]
-  videos  Videos[]
-  keys    ApplicationKey[]
+  invites   Invite[]
+  members   Member[]
+  videos    Videos[]
+  keys      ApplicationKey[]
+  callbacks Callbacks[]
+  files     File[]
 
   @@map("organizations")
 }
@@ -107,8 +108,7 @@ model Videos {
   name         String
   thumbnailUrl String
 
-  rawLocation String @map("raw_location")
-  location    String
+  metadata Json?
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -125,20 +125,50 @@ model Videos {
 model File {
   id String @id @default(uuid())
 
-  rawLocation String  @map("raw_location")
-  location    String?
+  name           String
+  rawLocation    String  @map("raw_location")
+  location       String?
+  organizationId String  @map("organization_id")
+
+  status FileStatus @default(PROCESSING)
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
   videos Videos?
 
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
   @@map("files")
 }
 
-model ApplicationKey {
+enum FileStatus {
+  PROCESSING
+  DONE
+  FAILLURE
+}
+
+model Callbacks {
   id String @id @default(uuid())
 
+  url  String
+  type CallbacksType
+
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String       @map("organization_id")
+
+  @@unique([type, organizationId])
+  @@map("callbacks")
+}
+
+enum CallbacksType {
+  VIDEO_CREATED
+  VIDEO_DELETED
+}
+
+model ApplicationKey {
+  id      String @id @default(uuid())
+  name    String
   keyHash String @unique @map("key_hash")
 
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)

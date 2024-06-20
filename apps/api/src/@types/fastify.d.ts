@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import 'fastify'
 
-import type { Member, Organization } from '@prisma/client'
+import type { Callbacks, File, Member, Organization } from '@prisma/client'
+import { Queue } from 'bullmq'
 
 declare module 'fastify' {
   export interface FastifyRequest {
@@ -8,5 +10,8 @@ declare module 'fastify' {
     getUserMembership(
       slug: string,
     ): Promise<{ organization: Organization; membership: Member }>
+    getApplication(): Promise<{ organization: Organization }>
+    fileQueue: Queue<File>
+    callbackQueue: Queue<Callbacks & { payload: any }>
   }
 }

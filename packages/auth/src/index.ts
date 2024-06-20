@@ -12,10 +12,12 @@ import { inviteSubject } from './subjects/invite'
 import { organizationSubject } from './subjects/organization'
 import { videoSubject } from './subjects/video'
 import { userSubject } from './subjects/user'
+import { keySubject } from './subjects/key'
 
 export * from './models/organization'
 export * from './models/video'
 export * from './models/user'
+export * from './models/key'
 export * from './roles'
 
 const appAbilitiesSchema = z.union([
@@ -23,6 +25,7 @@ const appAbilitiesSchema = z.union([
   userSubject,
   organizationSubject,
   inviteSubject,
+  keySubject,
   z.tuple([z.literal('manage'), z.literal('all')]),
 ])
 

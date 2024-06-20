@@ -14,7 +14,8 @@ async function seed() {
     data: {
       name: 'John Doe',
       email: 'john@acme.com',
-      avatarUrl: 'https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/ac/acd2436ce18f40d691fcdd52d8e9954b03a831b5_full.jpg',
+      avatarUrl:
+        'https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/ac/acd2436ce18f40d691fcdd52d8e9954b03a831b5_full.jpg',
       passwordHash,
     },
   })
@@ -45,43 +46,22 @@ async function seed() {
       avatarUrl: faker.image.avatarGitHub(),
       shouldAttachUsersByDomain: true,
       ownerId: user.id,
-      members: {
-        createMany: {
-          data: [
-            {
-              userId: user.id,
-              role: 'ADMIN',
-            },
-            {
-              userId: anotherUser.id,
-              role: 'MEMBER',
-            },
-            {
-              userId: anotherUser2.id,
-              role: 'MEMBER',
-            },
-          ],
+      keys: {
+        create: {
+          name: 'App Key',
+          keyHash: await hash('09876543210987654321', 8),
         },
       },
-    },
-  })
-
-  await prisma.organization.create({
-    data: {
-      name: 'Acme Inc (Billing)',
-      slug: 'acme-billing',
-      avatarUrl: faker.image.avatarGitHub(),
-      ownerId: user.id,
       members: {
         createMany: {
           data: [
             {
               userId: user.id,
-              role: 'BILLING',
+              role: 'ADMIN',
             },
             {
               userId: anotherUser.id,
-              role: 'ADMIN',
+              role: 'MEMBER',
             },
             {
               userId: anotherUser2.id,
