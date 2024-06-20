@@ -13,7 +13,7 @@ export async function streamMedia(app: FastifyInstance) {
     .withTypeProvider<ZodTypeProvider>()
     .register(auth)
     .get(
-      '/videos/:id/stream',
+      '/stream/:id',
       {
         schema: {
           params: z.object({

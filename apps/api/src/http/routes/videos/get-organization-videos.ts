@@ -79,7 +79,7 @@ export async function getOrganizationVideos(app: FastifyInstance) {
         const videosWithUrl = videos.map((v) => ({
           ...v,
           url: new URL(
-            `/files/${v.file.id}/stream`,
+            `/stream/${v.file.id}`,
             getBaseUrlFromRequest(request),
           ).toString(),
           file: undefined,

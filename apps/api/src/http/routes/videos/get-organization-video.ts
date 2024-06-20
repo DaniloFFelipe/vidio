@@ -64,7 +64,7 @@ export async function getOrganizationVideo(app: FastifyInstance) {
             name: video.name,
             thumbnailUrl: video.thumbnailUrl,
             url: new URL(
-              `/videos/${video.file.id}/stream`,
+              `/stream/${video.file.id}`,
               getBaseUrlFromRequest(request),
             ).toString(),
             createdAt: video.createdAt,
